@@ -244,6 +244,7 @@ static int8_t CUSTOM_HID_DeInit_FS(void)
 
 extern void print(char* fmt, ...);
 extern uint8_t fb[940];
+extern uint8_t data_ready;
 /**
   * @brief  Manage the CUSTOM HID class events
   * @param  event_idx: Event index
@@ -262,6 +263,7 @@ static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
         uint8_t size = hhid->Report_buf[3];
         uint8_t i;
         //print("GLCD2USB_RID_WRITE: %d (%d,%d) size %d\n", hhid->Report_buf[0], addr/128, addr%128, hhid->Report_buf[3]);
+        data_ready = 1;
         for (i = 0; i < size; i++)
             fb[row * 128 + col + i] = hhid->Report_buf[4 + i];
     } else if (hhid->ReportId == GLCD2USB_RID_SET_ALLOC) {

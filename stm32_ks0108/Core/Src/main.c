@@ -71,8 +71,8 @@ void delay(int n) {
 
 /* USER CODE END 0 */
 
-uint8_t tmp_data;
 uint8_t fb[1024];
+uint8_t data_ready = 0;
 /**
   * @brief  The application entry point.
   * @retval int
@@ -108,29 +108,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
   glcdInit();
   print("start..\n");
-
+  while (!data_ready);
+  glcdClearScreen();
   /* USER CODE END 2 */
-  {
-      int i, j;
-
-      for (i=0; i<8; i++)
-      {
-          for (j=0; j<128; j++)
-          {
-              fb[i*128+j] = 0xAA;
-          }
-      }
-  }
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
       //USBD_CUSTOM_HID_SendReport_FS(&tmp_data, 1);
-      //tmp_data++;
-#if 1
       int i, j;
-      //delay(1000000);
 
       // loop through all pages
       for(i=0; i<8; i++)
@@ -143,23 +130,6 @@ int main(void)
               glcdDataWrite(fb[i*128+j]);
           }
       }
-#endif  
-#if 0
-    /* USER CODE END WHILE */
-      int i, j, k;
-      for (i = 0; i < 8; i++) {
-        for (k = 0; k < 8; k++) {
-            for (j = 0; j < 128; j++ ) {
-                if (fb[i * 128 + j] & (1 << k))
-                    print("*");
-                else
-                    print("O");
-            }
-            print("\n");
-        }
-      }
-      print("\n");
-#endif    
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

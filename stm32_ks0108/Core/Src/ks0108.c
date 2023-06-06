@@ -1,5 +1,6 @@
 #include "main.h"
 #include "ks0108.h"
+#include "logo.h"
 
 #define NOP  do { \
     asm volatile ("nop"); \
@@ -227,10 +228,13 @@ void glcdHome(void)
 	GrLcdState.ctrlr[1].xAddr = GrLcdState.ctrlr[1].yAddr = 0;
 }
 
+extern uint8_t fb[];
+extern const uint8_t logo[];
 void glcdInitScreen(void)
 {
 	u08 pageAddr;
 	u08 xAddr;
+    u16 i = 0;
 
 	// clear LCD
 	// loop through all pages
@@ -241,7 +245,7 @@ void glcdInitScreen(void)
 		// clear all lines of this page of display memory
 		for(xAddr=0; xAddr<GLCD_XPIXELS; xAddr++)
 		{
-			glcdDataWrite(0xAA);
+			glcdDataWrite(logo[i++]);
 		}
 	}
 }
